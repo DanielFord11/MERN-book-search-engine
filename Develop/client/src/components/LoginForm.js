@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
 
-// import useMutation and LOGIN-USER
+// import useMutation and LOGIN_USER
 import { useMutation } from "@apollo/react-hooks";
 import { LOGIN_USER } from "../utils/mutations";
 
@@ -10,7 +10,7 @@ import Auth from "../utils/auth";
 
 const LoginForm = () => {
   const [userFormData, setUserFormData] = useState({ email: "", password: "" });
-  const [validated] = useState(false);
+  const [validated, setValidated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
   // declaring loginUser with useMutation
@@ -19,8 +19,7 @@ const LoginForm = () => {
   useEffect(() => {
     if (error) setShowAlert(true);
     else setShowAlert(false);
-  }, [error])
-
+  }, [error]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -28,16 +27,15 @@ const LoginForm = () => {
   };
 
   const handleFormSubmit = async (event) => {
-    event.preventDefault();
-
-    // check if form has everything (as per react-bootstrap docs)
     const form = event.currentTarget;
+
+    event.preventDefault();
+    event.stopPropagation();
+
     if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
+      return;
     }
 
-    // use loginUser function
     try {
       const { data } = await loginUser({
         variables: { ...userFormData },
@@ -48,11 +46,7 @@ const LoginForm = () => {
       console.error(e);
     }
 
-    setUserFormData({
-      username: "",
-      email: "",
-      password: "",
-    });
+    setUserFormData({ email: "", password: "" });
   };
 
   return (
@@ -69,7 +63,7 @@ const LoginForm = () => {
         <Form.Group>
           <Form.Label htmlFor="email">Email</Form.Label>
           <Form.Control
-            type="text"
+            type="email"
             placeholder="Your email"
             name="email"
             onChange={handleInputChange}
