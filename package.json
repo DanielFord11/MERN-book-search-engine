@@ -6,21 +6,25 @@
   "scripts": {
     "start": "node server/server.js",
     "install": "cd server && npm install && cd ../client && npm install",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false && NODE_ENV=production npm install --prefix client && npm run build --prefix client",
     "dev": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
-    "build": "cd client && npm run build"
+    "build": "cd client && npm run build",
+    "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm start\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "concurrently": "^5.1.0"
+    "concurrently": "^5.1.0",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
   },
   "dependencies": {
     "express": "^4.17.1",
-    "mongoose": "^6.1.0",
+    "mongoose": "^7.6.2",
     "path": "^0.12.7",
     "react": "^18.2.0",
-    "react-dom": "^17.0.2"
+    "react-dom": "^18.2.0"
   }
 }
