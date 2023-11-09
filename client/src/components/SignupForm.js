@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
-
-// import Apollo hook and add user mutation
 import { useMutation } from "@apollo/react-hooks";
 import { ADD_USER } from "../utils/mutations";
-
 import Auth from "../utils/auth";
 
 const SignupForm = () => {
@@ -13,6 +10,7 @@ const SignupForm = () => {
     email: "",
     password: "",
   });
+
   const [validated, setValidated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
@@ -36,16 +34,20 @@ const SignupForm = () => {
     const form = event.currentTarget;
 
     if (form.checkValidity() === false) {
+      console.log("line 40 of sign up ran");
       event.stopPropagation();
     } else {
       try {
+        console.log("line 43 of sign up ran");
+        console.log("User form data:", userFormData);
         const { data } = await addUser({
           variables: { ...userFormData },
         });
+        console.log("Add user mutation response:", data);
 
         Auth.login(data.addUser.token);
       } catch (e) {
-        console.error(e);
+        console.error("Error in handleFormSubmit:", e);
       }
 
       setUserFormData({

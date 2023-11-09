@@ -15,12 +15,14 @@ app.use(express.json());
 
 // Log incoming requests
 app.use((req, res, next) => {
-  console.log(`Incoming ${req.method} request to ${req.url}`);
+  console.log(`Incoming ${req.method} request to ${req.url} and the headers are:`);
+  console.log(`Incoming ${req.method} request to ${req.url} and the request body is:`);
+  console.log(req.body);
   next();
 });
 
 // CORS configuration
-app.use(cors()); // Add this line for the cors middleware
+// app.use(cors()); // Add this line for the cors middleware
 
 // Error handling middleware
 app.use(errorHandler);

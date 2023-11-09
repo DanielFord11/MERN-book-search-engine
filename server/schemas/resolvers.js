@@ -17,7 +17,7 @@ const resolvers = {
         return userData;
       } catch (error) {
         console.error("Error in me resolver:", error);
-        throw error;
+        throw new Error("Failed to fetch user data. Please try again later.");
       }
     },
   },
@@ -35,17 +35,20 @@ const resolvers = {
         return { token, user };
       } catch (error) {
         console.error("Error in login resolver:", error);
-        throw error;
+        throw new Error("Login failed. Please check your credentials and try again.");
       }
     },
     addUser: async (_, args) => {
       try {
+        console.log("add user ran");
+        console.log("Args received in addUser resolver:", args);
         const user = await User.create(args);
         const token = signToken(user);
+        console.log("Token generated:", token);
         return { token, user };
       } catch (error) {
         console.error("Error in addUser resolver:", error);
-        throw error;
+        throw new Error("Failed to create a new user. Please try again later.");
       }
     },
     saveBook: async (_, { input }, { user }) => {
@@ -61,7 +64,7 @@ const resolvers = {
         return updatedUser;
       } catch (error) {
         console.error("Error in saveBook resolver:", error);
-        throw error;
+        throw new Error("Failed to save the book. Please try again later.");
       }
     },
     removeBook: async (_, { bookId }, { user }) => {
@@ -77,7 +80,7 @@ const resolvers = {
         return updatedUser;
       } catch (error) {
         console.error("Error in removeBook resolver:", error);
-        throw error;
+        throw new Error("Failed to remove the book. Please try again later.");
       }
     },
   },
